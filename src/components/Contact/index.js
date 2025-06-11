@@ -129,31 +129,62 @@ const Contact = () => {
   const form = useRef();
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    emailjs.sendForm('service_28k9pl8', 'template_dpa5ivf', form.current, 'SBYFTBUh2E8xmEx8y')
-      .then((result) => {
-        setOpen(true);
-        form.current.reset();
-      }, (error) => {
-        console.log(error.text);
-      });
+  e.preventDefault();
+  const data = new FormData(form.current);
+  for (let [key, value] of data.entries()) {
+    console.log(`${key}: ${value}`);
   }
 
+  emailjs.sendForm('service_28k9pl8', 'template_dpa5ivf', form.current, 'SBYFTBUh2E8xmEx8y')
+    .then((result) => {
+      setOpen(true);
+      form.current.reset();
+    }, (error) => {
+      console.log(error.text);
+    });
+};
 
-
-  return (
+return (
     <Container>
       <Wrapper>
         <Title>Contact</Title>
         <Desc>Feel free to reach out to me for any questions or opportunities!</Desc>
         <ContactForm ref={form} onSubmit={handleSubmit}>
-          <ContactTitle>Email Me 🚀</ContactTitle>
-          <ContactInput placeholder="Your Email" name="email" />
-          <ContactInput placeholder="Your Name" name="name" />
-          <ContactInput placeholder="Subject" name="subject" />
-          <ContactInputMessage placeholder="Message" rows="4" name="message" />
-          <ContactButton type="submit" value="Send" />
-        </ContactForm>
+  <ContactTitle>Email Me 🚀</ContactTitle>
+  
+  <ContactInput 
+    placeholder="Your Email" 
+    name="email" 
+    type="email"
+    required 
+  />
+  
+  <ContactInput 
+    placeholder="Your Name" 
+    name="name" 
+    type="text"
+    required 
+  />
+  
+  <ContactInput 
+    placeholder="Subject" 
+    name="subject" 
+    type="text"
+    required 
+  />
+  
+  <ContactInputMessage 
+    placeholder="Message" 
+    name="message" 
+    rows="4" 
+    required 
+  />
+  
+  <ContactButton 
+    type="submit" 
+    value="Send" 
+  />
+</ContactForm>
         <Snackbar
           open={open}
           autoHideDuration={6000}
@@ -164,6 +195,7 @@ const Contact = () => {
       </Wrapper>
     </Container>
   )
+
 }
 
 export default Contact
